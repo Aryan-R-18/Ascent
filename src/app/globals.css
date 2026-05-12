@@ -1,0 +1,136 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Off-white background */
+    --background: 120 10% 98%; 
+    --foreground: 120 20% 10%;
+    
+    /* Slightly contrasting card */
+    --card: 0 0% 100%;
+    --card-foreground: 120 20% 10%;
+    
+    /* Light borders */
+    --border: 120 20% 86%;
+    --input: 120 20% 86%;
+    
+    /* Primary Green (#228b22) */
+    --primary: 120 61% 34%;
+    --primary-foreground: 0 0% 100%;
+    
+    /* Secondary */
+    --secondary: 120 20% 90%;
+    --secondary-foreground: 120 20% 10%;
+    
+    /* Muted */
+    --muted: 120 10% 92%;
+    --muted-foreground: 120 5% 45%;
+    
+    /* Accents */
+    --accent: 120 61% 34%;
+    --accent-foreground: 0 0% 100%;
+    
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    
+    --ring: 120 61% 34%;
+    --radius: 0.75rem;
+    
+    /* Sidebar */
+    --sidebar: 120 10% 96%;
+    --sidebar-foreground: 120 20% 10%;
+    --sidebar-border: 120 20% 86%;
+
+    /* Glassmorphism uses light overlay */
+    --glass-bg: rgba(240, 245, 240, 0.8);
+    --glass-border: rgba(34, 139, 34, 0.2);
+  }
+
+  .dark {
+    /* Pure black background for the dominant black feel */
+    --background: 0 0% 0%;
+    --foreground: 0 0% 98%;
+    
+    /* Slightly lighter black for cards to stand out */
+    --card: 120 10% 4%;
+    --card-foreground: 0 0% 98%;
+    
+    /* Subtle green-tinted dark borders */
+    --border: 120 20% 18%;
+    --input: 120 20% 18%;
+    
+    /* Primary Green (#228b22 -> HSL: 120, 61%, 34%) */
+    --primary: 120 61% 34%;
+    --primary-foreground: 0 0% 100%;
+    
+    /* Secondary muted green */
+    --secondary: 120 20% 10%;
+    --secondary-foreground: 0 0% 98%;
+    
+    /* Muted grey/green for secondary text */
+    --muted: 120 10% 10%;
+    --muted-foreground: 120 5% 65%;
+    
+    /* Accents also use the vibrant forest green */
+    --accent: 120 61% 34%;
+    --accent-foreground: 0 0% 100%;
+    
+    /* Destructive stays red */
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    
+    --ring: 120 61% 34%;
+    --radius: 0.75rem;
+    
+    /* Sidebar matches background */
+    --sidebar: 0 0% 2%;
+    --sidebar-foreground: 0 0% 98%;
+    --sidebar-border: 120 20% 18%;
+
+    /* Glassmorphism uses black overlay with subtle green border */
+    --glass-bg: rgba(0, 0, 0, 0.8);
+    --glass-border: rgba(34, 139, 34, 0.3);
+  }
+}
+
+@layer utilities {
+  .bg-glass {
+    @apply backdrop-blur-xl bg-[var(--glass-bg)] border border-[var(--glass-border)] shadow-sm;
+  }
+  .hover-lift {
+    @apply transition-transform duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/20;
+  }
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+  @keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+  }
+}
+
+@layer base {
+  * { @apply border-border; }
+  body { @apply bg-background text-foreground; }
+}
+
+/* Markdown styles */
+.prose-clubsync {
+  @apply text-sm leading-relaxed;
+}
+.prose-clubsync h1 { @apply text-xl font-bold mb-3 mt-4; }
+.prose-clubsync h2 { @apply text-lg font-semibold mb-2 mt-3; }
+.prose-clubsync h3 { @apply text-base font-semibold mb-2 mt-3; }
+.prose-clubsync p { @apply mb-3; }
+.prose-clubsync ul { @apply list-disc pl-5 mb-3 space-y-1; }
+.prose-clubsync ol { @apply list-decimal pl-5 mb-3 space-y-1; }
+.prose-clubsync code { @apply bg-muted px-1 py-0.5 rounded text-xs font-mono; }
+.prose-clubsync pre { @apply bg-muted p-3 rounded-lg overflow-x-auto mb-3; }
+.prose-clubsync pre code { @apply bg-transparent p-0; }
+.prose-clubsync blockquote { @apply border-l-4 border-primary pl-4 italic text-muted-foreground mb-3; }
+.prose-clubsync a { @apply text-primary underline; }
+.prose-clubsync strong { @apply font-semibold; }
+.prose-clubsync hr { @apply border-border my-4; }
