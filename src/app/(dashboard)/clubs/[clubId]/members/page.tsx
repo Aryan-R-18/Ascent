@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useClubDetail, useInviteMember, useRemoveMember, useUpdateMemberRole, useJoinRequests, useApproveJoinRequest, useRejectJoinRequest } from '@/hooks/use-queries';
+import { useClubDetail, useInviteMember, useRemoveMember, useUpdateMemberRole, useJoinRequests, useApproveRequest, useRejectRequest } from '@/hooks/use-queries';
 import { useClub } from '@/hooks/use-club';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -34,8 +34,8 @@ export default function MembersPage() {
   const [role, setRole] = useState<ClubRole>('MEMBER');
 
   const { data: joinRequests } = useJoinRequests(clubId);
-  const approveReq = useApproveJoinRequest(clubId);
-  const rejectReq = useRejectJoinRequest(clubId);
+  const approveReq = useApproveRequest(clubId);
+  const rejectReq = useRejectRequest(clubId);
 
   const myMembership = club?.members?.find((m) => m.userId === user?.id);
   const canManage = myMembership?.role === 'OWNER';

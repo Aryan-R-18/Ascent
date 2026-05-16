@@ -1,14 +1,23 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   clubsApi, meetingsApi, tasksApi, updatesApi, notesApi,
-  dashboardApi, notificationsApi, tagsApi, activityApi
+  dashboardApi, notificationsApi, tagsApi, activityApi, publicApi, joinRequestsApi
 } from '@/lib/api';
-import type { ClubRole, TaskStatus, Priority } from '@/types';
 import { useAuthStore } from '@/store/auth.store';
 
 function useIsAuth() {
   return !!useAuthStore((s) => s.user);
 }
+
+// ── Public (no auth) ──────────────────────────────────────────────────────────
+export const usePublicClubs = () =>
+  useQuery({ queryKey: ['public-clubs'], queryFn: publicApi.getClubs });
+
+export const useJoinClub = () =>
+  useMutation({
+    mutationFn: ({ clubId, data }: { clubId: string; data: Parameters<typeof publicApi.joinClub>[1] }) =>
+      publicApi.joinClub(clubId, data),
+  });
 
 // ── Clubs ──────────────────────────────────────────────────────────────────────
 export const useClubs = () => {
@@ -31,14 +40,17 @@ export const useUpdateClub = (clubId: string) => {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: (data: Parameters<typeof clubsApi.update>[1]) => clubsApi.update(clubId, data),
-    onSuccess: () => { qc.invalidateQueries({ queryKey: ['clubs'] }); qc.invalidateQueries({ queryKey: ['club', clubId] }); },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['clubs'] });
+      qc.invalidateQueries({ queryKey: ['club', clubId] });
+    },
   });
 };
 
 export const useInviteMember = (clubId: string) => {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (data: { email: string; role?: ClubRole }) => clubsApi.invite(clubId, data),
+    mutationFn: (data: Parameters<typeof clubsApi.invite>[1]) => clubsApi.invite(clubId, data),
     onSuccess: () => qc.invalidateQueries({ queryKey: ['club', clubId] }),
   });
 };
@@ -46,7 +58,8 @@ export const useInviteMember = (clubId: string) => {
 export const useUpdateMemberRole = (clubId: string) => {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: ({ userId, role }: { userId: string; role: ClubRole }) => clubsApi.updateMemberRole(clubId, userId, role),
+    mutationFn: ({ userId, role }: { userId: string; role: any }) =>
+      clubsApi.updateMemberRole(clubId, userId, role),
     onSuccess: () => qc.invalidateQueries({ queryKey: ['club', clubId] }),
   });
 };
@@ -59,32 +72,28 @@ export const useRemoveMember = (clubId: string) => {
   });
 };
 
-export const usePublicClubs = () => useQuery({ queryKey: ['public-clubs'], queryFn: clubsApi.getPublic });
-
-export const useRequestToJoin = () => {
-  return useMutation({
-    mutationFn: ({ clubId, ...data }: any) => clubsApi.requestToJoin(clubId, data)
+// ── Join Requests ──────────────────────────────────────────────────────────────
+export const useJoinRequests = (clubId: string) => {
+  const auth = useIsAuth();
+  return useQuery({
+    queryKey: ['join-requests', clubId],
+    queryFn: () => joinRequestsApi.list(clubId),
+    enabled: auth && !!clubId,
   });
 };
 
-export const useJoinRequests = (clubId: string) =>
-  useQuery({ queryKey: ['join-requests', clubId], queryFn: () => clubsApi.getJoinRequests(clubId), enabled: !!clubId });
-
-export const useApproveJoinRequest = (clubId: string) => {
+export const useApproveRequest = (clubId: string) => {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (requestId: string) => clubsApi.approveJoinRequest(clubId, requestId),
-    onSuccess: () => {
-      qc.invalidateQueries({ queryKey: ['join-requests', clubId] });
-      qc.invalidateQueries({ queryKey: ['club', clubId] });
-    }
+    mutationFn: (requestId: string) => joinRequestsApi.approve(clubId, requestId),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['join-requests', clubId] }),
   });
 };
 
-export const useRejectJoinRequest = (clubId: string) => {
+export const useRejectRequest = (clubId: string) => {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (requestId: string) => clubsApi.rejectJoinRequest(clubId, requestId),
+    mutationFn: (requestId: string) => joinRequestsApi.reject(clubId, requestId),
     onSuccess: () => qc.invalidateQueries({ queryKey: ['join-requests', clubId] }),
   });
 };
@@ -254,12 +263,22 @@ export const useCreateTag = () => {
 // ── Notifications ──────────────────────────────────────────────────────────────
 export const useNotifications = () => {
   const auth = useIsAuth();
-  return useQuery({ queryKey: ['notifications'], queryFn: notificationsApi.list, enabled: auth, refetchInterval: auth ? 30000 : false });
+  return useQuery({
+    queryKey: ['notifications'],
+    queryFn: notificationsApi.list,
+    enabled: auth,
+    refetchInterval: auth ? 30000 : false,
+  });
 };
 
 export const useUnreadCount = () => {
   const auth = useIsAuth();
-  return useQuery({ queryKey: ['notifications-count'], queryFn: notificationsApi.unreadCount, enabled: auth, refetchInterval: auth ? 30000 : false });
+  return useQuery({
+    queryKey: ['notifications-count'],
+    queryFn: notificationsApi.unreadCount,
+    enabled: auth,
+    refetchInterval: auth ? 30000 : false,
+  });
 };
 
 export const useMarkAllRead = () => {

@@ -14,8 +14,8 @@ export function useAuth() {
     router.push(from);
   }
 
-  async function register(email: string, password: string, name: string) {
-    const data = await authApi.register({ email, password, name });
+  async function register(email: string, password: string, name: string, clubName: string, clubDescription?: string) {
+    const data = await authApi.register({ email, password, name, clubName, clubDescription });
     setAuth(data.user, data.accessToken, data.refreshToken);
     router.push('/clubs');
   }
@@ -24,7 +24,7 @@ export function useAuth() {
     const refreshToken = localStorage.getItem('refreshToken');
     if (refreshToken) await authApi.logout(refreshToken).catch(() => {});
     clearAuth();
-    router.push('/auth/login');
+    router.push('/');
   }
 
   return { user, login, register, logout, isAuthenticated: !!user };

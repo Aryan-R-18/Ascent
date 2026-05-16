@@ -1,20 +1,29 @@
 import { apiClient } from './api-client';
 import type {
   AuthResponse, User, Club, Meeting, MeetingNote, Task, TaskComment,
-  DailyUpdate, Note, Tag, Notification, DashboardData, ClubRole, JoinRequest
+  DailyUpdate, Note, Tag, Notification, DashboardData, ClubRole
 } from '@/types';
 
-// Auth
+// ── Auth ──────────────────────────────────────────────────────────────────────
 export const authApi = {
-  register: (data: { email: string; password: string; name: string }) =>
+  register: (data: { email: string; password: string; name: string; clubName: string; clubDescription?: string }) =>
     apiClient.post<AuthResponse>('/api/auth/register', data).then((r) => r.data),
   login: (data: { email: string; password: string }) =>
     apiClient.post<AuthResponse>('/api/auth/login', data).then((r) => r.data),
-  logout: (refreshToken: string) => apiClient.post('/api/auth/logout', { refreshToken }),
+  logout: (refreshToken: string) =>
+    apiClient.post('/api/auth/logout', { refreshToken }),
   me: () => apiClient.get<User>('/api/auth/me').then((r) => r.data),
 };
 
-// Clubs
+// ── Public (no auth required) ─────────────────────────────────────────────────
+export const publicApi = {
+  getClubs: () =>
+    apiClient.get<{ id: string; name: string; description?: string; _count: { members: number } }[]>('/api/public/clubs').then((r) => r.data),
+  joinClub: (clubId: string, data: { name: string; email: string; password: string; message?: string }) =>
+    apiClient.post(`/api/public/clubs/${clubId}/join`, data).then((r) => r.data),
+};
+
+// ── Clubs ─────────────────────────────────────────────────────────────────────
 export const clubsApi = {
   list: () => apiClient.get<Club[]>('/api/clubs').then((r) => r.data),
   create: (data: { name: string; description?: string }) =>
@@ -29,26 +38,31 @@ export const clubsApi = {
     apiClient.patch(`/api/clubs/${clubId}/members/${userId}`, { role }).then((r) => r.data),
   removeMember: (clubId: string, userId: string) =>
     apiClient.delete(`/api/clubs/${clubId}/members/${userId}`),
-  getPublic: () => apiClient.get<Club[]>('/api/clubs/public').then(r => r.data),
-  requestToJoin: (clubId: string, data: any) => apiClient.post(`/api/clubs/${clubId}/join-requests`, data).then(r => r.data),
-  getJoinRequests: (clubId: string) => apiClient.get<JoinRequest[]>(`/api/clubs/${clubId}/join-requests`).then(r => r.data),
-  approveJoinRequest: (clubId: string, requestId: string) => apiClient.post(`/api/clubs/${clubId}/join-requests/${requestId}/approve`).then(r => r.data),
-  rejectJoinRequest: (clubId: string, requestId: string) => apiClient.post(`/api/clubs/${clubId}/join-requests/${requestId}/reject`).then(r => r.data),
 };
 
-// Dashboard
+// ── Join Requests ─────────────────────────────────────────────────────────────
+export const joinRequestsApi = {
+  list: (clubId: string) =>
+    apiClient.get(`/api/clubs/${clubId}/join-requests`).then((r) => r.data),
+  approve: (clubId: string, requestId: string) =>
+    apiClient.post(`/api/clubs/${clubId}/join-requests/${requestId}/approve`).then((r) => r.data),
+  reject: (clubId: string, requestId: string) =>
+    apiClient.post(`/api/clubs/${clubId}/join-requests/${requestId}/reject`).then((r) => r.data),
+};
+
+// ── Dashboard ─────────────────────────────────────────────────────────────────
 export const dashboardApi = {
   get: (clubId: string) =>
     apiClient.get<DashboardData>(`/api/clubs/${clubId}/dashboard`).then((r) => r.data),
 };
 
-// Activity
+// ── Activity ──────────────────────────────────────────────────────────────────
 export const activityApi = {
   list: (clubId: string, page = 1) =>
     apiClient.get(`/api/clubs/${clubId}/activity?page=${page}`).then((r) => r.data),
 };
 
-// Meetings
+// ── Meetings ──────────────────────────────────────────────────────────────────
 export const meetingsApi = {
   list: (clubId: string) =>
     apiClient.get<Meeting[]>(`/api/clubs/${clubId}/meetings`).then((r) => r.data),
@@ -66,7 +80,7 @@ export const meetingsApi = {
     apiClient.patch<MeetingNote>(`/api/clubs/${clubId}/meetings/${meetingId}/mom/${momId}`, data).then((r) => r.data),
 };
 
-// Tasks
+// ── Tasks ─────────────────────────────────────────────────────────────────────
 export const tasksApi = {
   list: (clubId: string, params?: { status?: string; assigneeId?: string; priority?: string }) =>
     apiClient.get<Task[]>(`/api/clubs/${clubId}/tasks`, { params }).then((r) => r.data),
@@ -86,7 +100,7 @@ export const tasksApi = {
     apiClient.delete(`/api/clubs/${clubId}/tasks/${taskId}/comments/${commentId}`),
 };
 
-// Daily Updates
+// ── Daily Updates ─────────────────────────────────────────────────────────────
 export const updatesApi = {
   list: (clubId: string, params?: { authorId?: string; from?: string; to?: string; page?: number }) =>
     apiClient.get(`/api/clubs/${clubId}/updates`, { params }).then((r) => r.data),
@@ -100,7 +114,7 @@ export const updatesApi = {
     apiClient.delete(`/api/clubs/${clubId}/updates/${updateId}`),
 };
 
-// Notes
+// ── Notes ─────────────────────────────────────────────────────────────────────
 export const notesApi = {
   list: (clubId: string, params?: { search?: string; tagId?: string }) =>
     apiClient.get<Note[]>(`/api/clubs/${clubId}/notes`, { params }).then((r) => r.data),
@@ -114,14 +128,14 @@ export const notesApi = {
     apiClient.delete(`/api/clubs/${clubId}/notes/${noteId}`),
 };
 
-// Tags
+// ── Tags ──────────────────────────────────────────────────────────────────────
 export const tagsApi = {
   list: () => apiClient.get<Tag[]>('/api/tags').then((r) => r.data),
   create: (data: { name: string; color?: string }) =>
     apiClient.post<Tag>('/api/tags', data).then((r) => r.data),
 };
 
-// Notifications
+// ── Notifications ─────────────────────────────────────────────────────────────
 export const notificationsApi = {
   list: () => apiClient.get<Notification[]>('/api/notifications').then((r) => r.data),
   unreadCount: () => apiClient.get<{ count: number }>('/api/notifications/unread-count').then((r) => r.data),
