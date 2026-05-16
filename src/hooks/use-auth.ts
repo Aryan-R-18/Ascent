@@ -1,17 +1,15 @@
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/store/auth.store';
 import { authApi } from '@/lib/api';
 
 export function useAuth() {
   const router = useRouter();
-  const searchParams = useSearchParams();
   const { user, setAuth, clearAuth } = useAuthStore();
 
-  async function login(email: string, password: string) {
+  async function login(email: string, password: string, redirectTo?: string) {
     const data = await authApi.login({ email, password });
     setAuth(data.user, data.accessToken, data.refreshToken);
-    const from = searchParams?.get('from') ?? '/clubs';
-    router.push(from);
+    router.push(redirectTo ?? '/clubs');
   }
 
   async function register(email: string, password: string, name: string, clubName: string, clubDescription?: string) {

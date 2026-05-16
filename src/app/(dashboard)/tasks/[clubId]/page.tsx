@@ -108,7 +108,7 @@ export default function TasksPage() {
         open={showForm}
         onClose={() => setShowForm(false)}
         members={club?.members ?? []}
-        onSubmit={async (data) => {
+        onSubmit={async (data: any) => {
           await createTask.mutateAsync(data);
           setShowForm(false);
           toast({ title: 'Task created' });
@@ -121,7 +121,7 @@ export default function TasksPage() {
           task={selectedTask}
           clubId={clubId}
           onClose={() => setSelectedTask(null)}
-          onStatusChange={(status) => { updateTask.mutate({ taskId: selectedTask.id, data: { status } }); setSelectedTask({ ...selectedTask, status }); }}
+          onStatusChange={(status: any) => { updateTask.mutate({ taskId: selectedTask.id, data: { status } }); setSelectedTask({ ...selectedTask, status }); }}
         />
       )}
     </div>

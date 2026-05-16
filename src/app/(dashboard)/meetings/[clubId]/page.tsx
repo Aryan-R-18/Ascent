@@ -114,7 +114,7 @@ export default function MeetingsPage() {
       <MeetingFormDialog
         open={showForm}
         onClose={() => setShowForm(false)}
-        onSubmit={async (data) => {
+        onSubmit={async (data: any) => {
           await createMeeting.mutateAsync(data);
           setShowForm(false);
           toast({ title: 'Meeting scheduled' });

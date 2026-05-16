@@ -81,7 +81,7 @@ export default function UpdatesPage() {
         </div>
       ) : (
         <div className="space-y-4">
-          {updates.map((u) => (
+          {(updates as any[]).map((u: any) => (
             <Card key={u.id}>
               <CardContent className="p-5">
                 <div className="flex items-start justify-between gap-3">
@@ -101,7 +101,7 @@ export default function UpdatesPage() {
                         <div className="mt-3">
                           <p className="text-xs font-semibold text-muted-foreground mb-1">✅ Completed</p>
                           <ul className="space-y-0.5">
-                            {u.completedTasks.map((t, i) => (
+                            {(u.completedTasks as string[]).map((t: string, i: number) => (
                               <li key={i} className="text-sm text-muted-foreground flex items-center gap-1.5">
                                 <span className="w-1 h-1 rounded-full bg-green-500 shrink-0" /> {t}
                               </li>

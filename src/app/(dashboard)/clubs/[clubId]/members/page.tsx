@@ -68,7 +68,7 @@ export default function MembersPage() {
         <div className="mb-8">
           <h2 className="text-lg font-semibold mb-3">Pending Join Requests</h2>
           <div className="space-y-2">
-            {joinRequests.map(req => (
+            {(joinRequests as any[]).map((req: any) => (
               <Card key={req.id} className="border-primary/50 bg-primary/5">
                 <CardContent className="p-4 flex items-center justify-between">
                   <div>

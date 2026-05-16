@@ -109,7 +109,7 @@ export default function NotesPage() {
         note={editNote}
         tags={tags ?? []}
         onClose={() => { setShowForm(false); setEditNote(null); }}
-        onSubmit={async (data) => {
+        onSubmit={async (data: any) => {
           if (editNote) {
             await updateNote.mutateAsync({ noteId: editNote.id, data });
             toast({ title: 'Note updated' });
