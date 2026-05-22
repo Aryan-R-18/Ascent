@@ -43,7 +43,7 @@ export default function JoinPage() {
           <div className="w-9 h-9 rounded-lg bg-primary flex items-center justify-center">
             <Building2 size={18} className="text-primary-foreground" />
           </div>
-          <span className="text-2xl font-bold">ClubSync</span>
+          <span className="text-2xl font-bold">Ascent</span>
         </div>
 
         {/* Step: Done */}

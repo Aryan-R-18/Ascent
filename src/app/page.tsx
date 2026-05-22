@@ -11,7 +11,7 @@ export default function LandingPage() {
             <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
               <Building2 size={16} className="text-primary-foreground" />
             </div>
-            <span className="text-xl font-bold">ClubSync</span>
+            <span className="text-xl font-bold">Ascent</span>
           </div>
           <Link href="/auth/login" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
             Sign in
@@ -30,7 +30,7 @@ export default function LandingPage() {
           <span className="text-primary">Not your inbox.</span>
         </h1>
         <p className="text-lg text-muted-foreground mb-10 max-w-2xl mx-auto">
-          ClubSync brings meetings, tasks, daily updates, and member management into one place — so your club actually gets things done.
+          Ascent brings meetings, tasks, daily updates, and member management into one place — so your club actually gets things done.
         </p>
 
         {/* CTAs */}
@@ -78,7 +78,7 @@ export default function LandingPage() {
 
       {/* Footer */}
       <footer className="border-t py-6 text-center text-xs text-muted-foreground">
-        © {new Date().getFullYear()} ClubSync. Built for clubs that mean business.
+        © {new Date().getFullYear()} Ascent. Built for clubs that mean growth.
       </footer>
     </div>
   );

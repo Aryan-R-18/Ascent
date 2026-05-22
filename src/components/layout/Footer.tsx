@@ -10,7 +10,7 @@ export function Footer() {
         <div className="flex flex-col items-center md:items-start gap-2">
           <div className="flex items-center gap-2">
             <Target size={20} className="text-primary" />
-            <span className="font-bold text-lg tracking-tight">ClubSync</span>
+            <span className="font-bold text-lg tracking-tight">Ascent</span>
           </div>
           <p className="text-xs text-muted-foreground text-center md:text-left">
             Next-generation club operations & management. <br className="hidden md:block" />
@@ -44,7 +44,7 @@ export function Footer() {
       
       {/* Bottom Separator */}
       <div className="max-w-7xl mx-auto w-full flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-primary/5 mt-6 pt-4 text-[11px] text-muted-foreground/60 uppercase tracking-widest font-semibold">
-        <p>© {new Date().getFullYear()} ClubSync Platform</p>
+        <p>© {new Date().getFullYear()} Ascent Platform</p>
         <div className="flex gap-4">
           <Link href="#" className="hover:text-primary">Privacy Policy</Link>
           <Link href="#" className="hover:text-primary">Terms of Service</Link>

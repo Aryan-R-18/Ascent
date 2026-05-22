@@ -4,10 +4,13 @@ import { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/hooks/use-auth';
+import { useAuthStore } from '@/store/auth.store';
+import { authApi } from '@/lib/api';
 import { Building2, Eye, EyeOff, Loader2 } from 'lucide-react';
 
 function LoginForm() {
   const { login, logout, isAuthenticated } = useAuth();
+  const clearAuth = useAuthStore((s) => s.clearAuth);
   const router = useRouter();
   const searchParams = useSearchParams();
   const from = searchParams?.get('from');
@@ -17,15 +20,35 @@ function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  // null = still checking, true = verified, false = stale
+  const [sessionValid, setSessionValid] = useState<boolean | null>(isAuthenticated ? null : false);
 
   useEffect(() => {
-    if (isAuthenticated) {
-      const dest = from && !from.startsWith('/auth') ? from : '/clubs';
-      router.replace(dest);
+    if (!isAuthenticated) {
+      setSessionValid(false);
+      return;
     }
-  }, [isAuthenticated, router, from]);
+    // Verify the token is still valid before redirecting
+    authApi.me()
+      .then(() => {
+        const dest = from && !from.startsWith('/auth') ? from : '/clubs';
+        router.replace(dest);
+        // keep sessionValid as null (spinner) while redirect happens
+      })
+      .catch(() => {
+        // Token is stale — clear persisted auth so the form shows
+        clearAuth();
+        setSessionValid(false);
+      });
+  }, []); // run once on mount only
 
-  if (isAuthenticated) {
+  // Warm up the backend on mount
+  useEffect(() => {
+    const BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3001';
+    fetch(`${BASE_URL}/health`, { method: 'GET' }).catch(() => {});
+  }, []);
+
+  if (sessionValid === null) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
         <Loader2 size={24} className="animate-spin text-muted-foreground" />
@@ -54,7 +77,7 @@ function LoginForm() {
           <div className="w-9 h-9 rounded-lg bg-primary flex items-center justify-center">
             <Building2 size={18} className="text-primary-foreground" />
           </div>
-          <span className="text-2xl font-bold">ClubSync</span>
+          <span className="text-2xl font-bold">Ascent</span>
         </div>
 
         <div className="bg-card border rounded-xl shadow-sm p-8">

@@ -108,7 +108,7 @@ export default function MembersPage() {
                   <Select value={m.role} onValueChange={(v) => updateRole.mutate({ userId: m.userId, role: v as ClubRole })}>
                     <SelectTrigger className="w-32 h-7 text-xs"><SelectValue /></SelectTrigger>
                     <SelectContent>
-                      {(['CORE_MEMBER', 'MEMBER'] as ClubRole[]).map((r) => (
+                      {(['OWNER', 'CORE_MEMBER', 'MEMBER'] as ClubRole[]).map((r) => (
                         <SelectItem key={r} value={r} className="text-xs">{r.replace('_', ' ')}</SelectItem>
                       ))}
                     </SelectContent>
@@ -140,7 +140,7 @@ export default function MembersPage() {
               <Select value={role} onValueChange={(v) => setRole(v as ClubRole)}>
                 <SelectTrigger><SelectValue /></SelectTrigger>
                 <SelectContent>
-                  {(['CORE_MEMBER', 'MEMBER'] as ClubRole[]).map((r) => (
+                  {(['OWNER', 'CORE_MEMBER', 'MEMBER'] as ClubRole[]).map((r) => (
                     <SelectItem key={r} value={r}>{r.replace('_', ' ')}</SelectItem>
                   ))}
                 </SelectContent>

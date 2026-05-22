@@ -34,17 +34,17 @@ export default function NotesPage() {
     <div className="p-6 max-w-6xl mx-auto">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-bold">Notes & Knowledge Base</h1>
-          <p className="text-muted-foreground text-sm mt-1">{notes?.length ?? 0} notes</p>
+          <h1 className="text-2xl font-bold">Blogs & Technical Content</h1>
+          <p className="text-muted-foreground text-sm mt-1">{notes?.length ?? 0} blogs</p>
         </div>
-        <Button onClick={() => setShowForm(true)}><Plus size={16} /> New Note</Button>
+        <Button onClick={() => setShowForm(true)}><Plus size={16} /> New Blog</Button>
       </div>
 
       {/* Search + Tag filter */}
       <div className="flex items-center gap-3 mb-4 flex-wrap">
         <div className="relative flex-1 min-w-48">
           <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-          <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search notes..." className="pl-8 h-9" />
+          <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search blogs..." className="pl-8 h-9" />
         </div>
         <div className="flex items-center gap-1.5 flex-wrap">
           {tags?.map((tag) => (
@@ -67,7 +67,7 @@ export default function NotesPage() {
         </div>
       ) : notes?.length === 0 ? (
         <div className="text-center py-16 text-muted-foreground">
-          <p>No notes found. Create your first note.</p>
+          <p>No blogs found. Create your first blog.</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -223,7 +223,7 @@ function NoteFormDialog({ open, note, tags, onClose, onSubmit, loading }: any) {
 
           <div className="flex items-center gap-2">
             <input type="checkbox" id="pinned" checked={isPinned} onChange={(e) => setIsPinned(e.target.checked)} className="rounded" />
-            <Label htmlFor="pinned" className="cursor-pointer">Pin this note</Label>
+            <Label htmlFor="pinned" className="cursor-pointer">Pin this Blog</Label>
           </div>
 
           <div className="flex justify-end gap-2">

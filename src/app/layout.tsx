@@ -6,7 +6,7 @@ import { Providers } from './providers';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: { default: 'ClubSync', template: '%s | ClubSync' },
+  title: { default: 'Ascent', template: '%s | Ascent' },
   description: 'Collaborative platform for managing club activities, meetings, tasks, and updates.',
 };
 

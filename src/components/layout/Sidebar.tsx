@@ -16,7 +16,7 @@ const navItems = (clubId: string) => [
   { href: `/meetings/${clubId}`, label: 'Meetings', icon: Calendar },
   { href: `/tasks/${clubId}`, label: 'Tasks', icon: CheckSquare },
   { href: `/updates/${clubId}`, label: 'Daily Updates', icon: Bell },
-  { href: `/notes/${clubId}`, label: 'Notes', icon: FileText },
+  { href: `/notes/${clubId}`, label: 'Blogs', icon: FileText },
   { href: `/activity/${clubId}`, label: 'Activity', icon: Activity },
   { href: `/clubs/${clubId}/members`, label: 'Members', icon: Users },
   { href: `/clubs/${clubId}/join-requests`, label: 'Join Requests', icon: UserPlus, badge: true },
@@ -41,7 +41,7 @@ export function Sidebar() {
           <div className="w-7 h-7 rounded-md bg-primary flex items-center justify-center">
             <Building2 size={14} className="text-primary-foreground" />
           </div>
-          <span className="font-bold text-lg">ClubSync</span>
+          <span className="font-bold text-lg">Ascent</span>
         </Link>
       </div>
 
