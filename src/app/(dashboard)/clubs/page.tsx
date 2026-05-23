@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useClubs, useCreateClub } from '@/hooks/use-queries';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -23,6 +23,9 @@ export default function ClubsPage() {
   const [showForm, setShowForm] = useState(false);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => { setMounted(true); }, []);
 
   async function handleCreate(e: React.FormEvent) {
     e.preventDefault();
@@ -41,7 +44,7 @@ export default function ClubsPage() {
         <Button onClick={() => setShowForm(true)}><Plus size={16} /> New Club</Button>
       </div>
 
-      {isLoading ? (
+      {!mounted || isLoading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {[...Array(3)].map((_, i) => <Skeleton key={i} className="h-48" />)}
         </div>

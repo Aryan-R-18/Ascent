@@ -1,13 +1,14 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useClubs, useJoinRequests } from '@/hooks/use-queries';
 import { useClub } from '@/hooks/use-club';
 import { cn } from '@/lib/utils';
 import {
   LayoutDashboard, Users, Calendar, CheckSquare,
-  FileText, Bell, ChevronDown, Building2, Activity, UserPlus
+  FileText, Bell, ChevronDown, Activity, UserPlus
 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -38,9 +39,7 @@ export function Sidebar() {
       {/* Logo */}
       <div className="p-4 border-b border-sidebar-border">
         <Link href="/clubs" className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-md bg-primary flex items-center justify-center">
-            <Building2 size={14} className="text-primary-foreground" />
-          </div>
+          <Image src="/favicon.png" alt="Ascent logo" width={28} height={28} className="rounded-md" />
           <span className="font-bold text-lg">Ascent</span>
         </Link>
       </div>

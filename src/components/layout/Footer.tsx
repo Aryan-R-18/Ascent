@@ -1,4 +1,5 @@
-import { Target, Github, Twitter, Linkedin, Mail } from 'lucide-react';
+import Image from 'next/image';
+import { Github, Twitter, Linkedin, Mail } from 'lucide-react';
 import Link from 'next/link';
 
 export function Footer() {
@@ -9,7 +10,7 @@ export function Footer() {
         {/* Left Side: Brand & Logo */}
         <div className="flex flex-col items-center md:items-start gap-2">
           <div className="flex items-center gap-2">
-            <Target size={20} className="text-primary" />
+            <Image src="/favicon.png" alt="Ascent logo" width={24} height={24} className="rounded-sm" />
             <span className="font-bold text-lg tracking-tight">Ascent</span>
           </div>
           <p className="text-xs text-muted-foreground text-center md:text-left">
@@ -36,7 +37,8 @@ export function Footer() {
 
         {/* Right Side: Credit */}
         <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
-          Made by <Target size={16} className="text-primary animate-pulse" /> 
+          Made by
+          <Image src="/enigma_transparent_logo.png" alt="Enigma VSSUT logo" width={22} height={22} className="rounded-sm" />
           <span className="text-foreground tracking-wide font-bold">Enigma VSSUT</span>
         </div>
         

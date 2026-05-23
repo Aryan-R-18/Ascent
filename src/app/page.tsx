@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import { Building2, Users, Calendar, CheckSquare, Bell, ArrowRight } from 'lucide-react';
+import Image from 'next/image';
+import { Users, Calendar, CheckSquare, Bell, ArrowRight } from 'lucide-react';
 
 export default function LandingPage() {
   return (
@@ -8,9 +9,7 @@ export default function LandingPage() {
       <nav className="border-b">
         <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-              <Building2 size={16} className="text-primary-foreground" />
-            </div>
+            <Image src="/favicon.png" alt="Ascent logo" width={32} height={32} className="rounded-lg" />
             <span className="text-xl font-bold">Ascent</span>
           </div>
           <Link href="/auth/login" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
