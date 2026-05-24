@@ -156,11 +156,14 @@ export const useTasks = (clubId: string, filters?: { status?: string; assigneeId
 export const useTask = (clubId: string, taskId: string) =>
   useQuery({ queryKey: ['task', clubId, taskId], queryFn: () => tasksApi.get(clubId, taskId), enabled: !!taskId });
 
-export const useCreateTask = (clubId: string) => {
+export const useCreateTask = (clubId: string, meetingId?: string) => {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: (data: Parameters<typeof tasksApi.create>[1]) => tasksApi.create(clubId, data),
-    onSuccess: () => qc.invalidateQueries({ queryKey: ['tasks', clubId] }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['tasks', clubId] });
+      if (meetingId) qc.invalidateQueries({ queryKey: ['meeting', clubId, meetingId] });
+    },
   });
 };
 

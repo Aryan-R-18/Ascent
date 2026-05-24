@@ -51,7 +51,7 @@ export default function TasksPage() {
     <div className="p-6 max-w-6xl mx-auto">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-bold">Tasks</h1>
+          <h1 className="text-2xl font-bold">Projects and Tasks</h1>
           <p className="text-muted-foreground text-sm mt-1">{tasks?.length ?? 0} total</p>
         </div>
         <div className="flex items-center gap-2">
@@ -63,14 +63,14 @@ export default function TasksPage() {
             ))}
           </div>
           {canManageTask && (
-            <Button onClick={() => setShowForm(true)}><Plus size={16} /> New Task</Button>
+            <Button onClick={() => setShowForm(true)}><Plus size={16} /> Add New</Button>
           )}
         </div>
       </div>
 
       {view === 'list' ? (
         <div className="space-y-2">
-          {tasks?.length === 0 && <p className="text-center py-16 text-muted-foreground">No tasks yet</p>}
+          {tasks?.length === 0 && <p className="text-center py-16 text-muted-foreground">No projects yet</p>}
           {tasks?.map((t) => (
             <TaskRow key={t.id} task={t} onStatusChange={(status) => updateTask.mutate({ taskId: t.id, data: { status } })} onDelete={() => deleteTask.mutate(t.id)} onClick={() => setSelectedTask(t)} canManageTask={canManageTask} />
           ))}
