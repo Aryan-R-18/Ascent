@@ -36,7 +36,7 @@ export default function MeetingsPage() {
   const [showForm, setShowForm] = useState(false);
 
   const myMembership = club?.members?.find((m) => m.userId === user?.id);
-  const canSchedule = myMembership?.role === 'OWNER' || myMembership?.role === 'CORE_MEMBER';
+  const canSchedule = !!myMembership;
 
   async function handleDelete(id: string) {
     await deleteMeeting.mutateAsync(id);

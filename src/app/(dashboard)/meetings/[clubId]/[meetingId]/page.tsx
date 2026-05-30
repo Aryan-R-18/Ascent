@@ -47,7 +47,7 @@ export default function MeetingDetailPage() {
   const [taskData, setTaskData] = useState({ title: '', description: '', priority: 'MEDIUM' as Priority, assigneeId: '', dueDate: '' });
 
   const myMembership = club?.members?.find((m) => m.userId === user?.id);
-  const canManage = myMembership?.role === 'OWNER' || myMembership?.role === 'CORE_MEMBER';
+  const canManage = myMembership?.role === 'OWNER' || myMembership?.role === 'CORE_MEMBER' || myMembership?.role === 'MEMBER';
 
   if (isLoading) return <Skeleton className="m-6 h-96" />;
   if (!meeting) return <p className="p-6 text-muted-foreground">Meeting not found</p>;
