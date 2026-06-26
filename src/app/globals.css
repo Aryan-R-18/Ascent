@@ -117,6 +117,8 @@
   body { @apply bg-background text-foreground; }
 }
 
+
+
 /* Markdown styles */
 .prose-clubsync {
   @apply text-sm leading-relaxed;

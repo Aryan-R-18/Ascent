@@ -4,9 +4,38 @@ import { Users, Calendar, CheckSquare, Bell, ArrowRight } from 'lucide-react';
 
 export default function LandingPage() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background relative overflow-hidden">
+
+      {/* Light-mode only: dot grid + gradient orbs */}
+      <div className="absolute inset-0 pointer-events-none dark:hidden" aria-hidden="true">
+        {/* SVG dot grid masked — dark at edges, fades to invisible at center */}
+        <svg
+          className="absolute inset-0 w-full h-full"
+          xmlns="http://www.w3.org/2000/svg"
+          style={{
+            maskImage: 'radial-gradient(ellipse 80% 80% at 50% 50%, transparent 30%, rgba(0,0,0,0.6) 60%, rgba(0,0,0,1) 100%)',
+            WebkitMaskImage: 'radial-gradient(ellipse 80% 80% at 50% 50%, transparent 30%, rgba(0,0,0,0.6) 60%, rgba(0,0,0,1) 100%)',
+          }}
+        >
+          <defs>
+            <pattern id="dot-grid" x="0" y="0" width="28" height="28" patternUnits="userSpaceOnUse">
+              <circle cx="1.5" cy="1.5" r="1.5" fill="#166416" fillOpacity="0.75" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#dot-grid)" />
+        </svg>
+
+        {/* Soft green center glow to blend the fade */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background: 'radial-gradient(ellipse 70% 60% at 50% 45%, hsla(120,55%,42%,0.08) 0%, transparent 70%)',
+          }}
+        />
+      </div>
+
       {/* Nav */}
-      <nav className="border-b">
+      <nav className="border-b relative z-10">
         <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Image src="/favicon.png" alt="Ascent logo" width={32} height={32} className="rounded-lg" />
@@ -19,7 +48,7 @@ export default function LandingPage() {
       </nav>
 
       {/* Hero */}
-      <section className="max-w-4xl mx-auto px-6 pt-24 pb-16 text-center">
+      <section className="relative z-10 max-w-4xl mx-auto px-6 pt-24 pb-16 text-center">
         <div className="inline-flex items-center gap-2 bg-primary/10 text-primary text-xs font-medium px-3 py-1.5 rounded-full mb-6">
           <span className="w-1.5 h-1.5 rounded-full bg-primary" />
           Club management, simplified
@@ -56,7 +85,7 @@ export default function LandingPage() {
       </section>
 
       {/* Features */}
-      <section className="max-w-5xl mx-auto px-6 pb-24">
+      <section className="relative z-10 max-w-5xl mx-auto px-6 pb-24">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {[
             { icon: Calendar, title: 'Meeting Notes', desc: 'Record MoM with discussion points, decisions, and action items in Markdown.' },
@@ -76,7 +105,7 @@ export default function LandingPage() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t py-6 text-center text-xs text-muted-foreground">
+      <footer className="relative z-10 border-t py-6 text-center text-xs text-muted-foreground">
         © {new Date().getFullYear()} Ascent. Built for clubs that mean growth.
       </footer>
     </div>
